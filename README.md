@@ -20,3 +20,7 @@ Gozimhttp is a web server using zim-cgo, to browse a zim file.
 ## Implementation Details
 CGO bindings, since it's leveraging the C++ libraries (libzim, xapian ...), you need to install those dependencies.
 This port provides full text search and a native-to-Go HTTP server. 
+
+## License
+
+Because of the libzim license and static linking, this package is tainted by the GPL2.
