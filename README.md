@@ -1,7 +1,6 @@
-# zim-go
+# zim-cgo
 
 A Go bindings for the [Zim](https://github.com/openzim/libzim) library that provides full text search capabilities and a native Go HTTP server.
-
 
 ## Features
 
@@ -11,6 +10,12 @@ A Go bindings for the [Zim](https://github.com/openzim/libzim) library that prov
 ## Alternatives
 
 There is a native Go alternative available at https://github.com/akhenakh/gozim CGO free, it does not implement full text search due to Xapian availability in Go.
+
+## Gozimhttp
+
+Gozimhttp is a web server using zim-cgo, to browse a zim file.
+
+![gozimhttp](./img/gozimhttp.jpg)
 
 ## Implementation Details
 CGO bindings, since it's leveraging the C++ libraries (libzim, xapian ...), you need to install those dependencies.
