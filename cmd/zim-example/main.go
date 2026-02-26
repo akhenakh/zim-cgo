@@ -9,7 +9,7 @@ import (
 
 func main() {
 	// Open the archive
-	archive, err := zim.NewArchive("wikipedia.zim")
+	archive, err := zim.NewArchive("../../testdata/devdocs_en_markdown_2026-01.zim")
 	if err != nil {
 		log.Fatalf("Error opening archive: %v", err)
 	}
@@ -17,9 +17,7 @@ func main() {
 
 	fmt.Printf("Successfully loaded archive! Total entries: %d\n", archive.GetEntryCount())
 
-	// Fetch a specific entry by path
-	// New archives don't use namespace prefixes, e.g. "A/index.html" is just "index.html"
-	entry, err := archive.GetEntryByPath("index.html")
+	entry, err := archive.GetMainEntry()
 	if err != nil {
 		log.Fatalf("Error getting entry: %v", err)
 	}
