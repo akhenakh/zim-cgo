@@ -11,7 +11,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/akhenakh/kiwix-go/zim"
+	"github.com/akhenakh/zim-cgo/zim"
 )
 
 //go:embed templates/*

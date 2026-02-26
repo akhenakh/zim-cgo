@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/akhenakh/kiwix-go/zim"
+	"github.com/akhenakh/zim-cgo/zim"
 )
 
 func main() {
