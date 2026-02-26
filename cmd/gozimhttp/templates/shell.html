@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZIM Reader</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: #f5f5f5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        color: #333;
+        }
+        nav {
+            background: #2c3e50;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        flex-shrink: 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        nav a {
+            color: #ecf0f1;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            background: #3498db;
+            transition: background 0.2s;
+        font-size: 14px;
+        cursor: pointer;
+        }
+        nav a:hover {
+            background: #2980b9;
+        }
+        nav .search-box {
+            flex-grow: 1;
+            max-width: 400px;
+            display: flex;
+            gap: 8px;
+        align-items: center;
+        }
+        nav input[type="text"] {
+            flex-grow: 1;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            outline: none;
+        }
+        main {
+            flex-grow: 1;
+            padding: 20px;
+        }
+        iframe {
+            width: 100%;
+            height: calc(100vh - 60px);
+            border: none;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <a href="#" onclick="handleHome(event); return false;">Home</a>
+        <a href="/random" onclick="handleRandom(event); return false;">Random</a>
+        <div class="search-box">
+            <input type="text" id="search-input" placeholder="Search...">
+            <button onclick="performSearch()" style="padding: 8px 16px;">Search</button>
+        </div>
+        <input type="hidden" id="iframe-src" value="{{.IframeSrc}}">
+    </nav>
+    <main>
+        <iframe id="content-frame" onload="onIframeLoad()"></iframe>
+    </main>
+
+    <script>
+        function onIframeLoad() {
+            const iframe = document.getElementById('content-frame');
+            if (!iframe.src || iframe.src === window.location.href) {
+                handleHome({ preventDefault: function() {} });
+            }
+        }
+        handleHome({ preventDefault: function() {} });
+
+        const searchInput = document.getElementById('search-input');
+
+        searchInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+
+        function performSearch() {
+            const query = searchInput.value.trim();
+            if (query) {
+                document.getElementById('content-frame').src = '/search/results?q=' + encodeURIComponent(query);
+            }
+        }
+
+        function navigateTo(path) {
+            document.getElementById('content-frame').src = '/content/' + encodeURIComponent(path);
+        }
+
+        function handleRandom(e) {
+            e.preventDefault();
+            fetch('/api/random')
+                .then(r => r.json())
+                .then(data => {
+                    document.getElementById('content-frame').src = '/content/' + data.path;
+                });
+        }
+
+        function handleHome(e) {
+            e.preventDefault();
+            fetch('/api/main')
+                .then(r => r.json())
+                .then(data => {
+                    document.getElementById('content-frame').src = '/content/' + data.path;
+                });
+        }
+    </script>
+</body>
+
+</html>

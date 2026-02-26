@@ -30,5 +30,5 @@ go.work.sum
 # Editor/IDE
 .idea/
 .vscode/
-cmd/kiwix-example/kiwix-example
 cmd/zim-example/zim-example
+cmd/gozimhttp/gozimhttp

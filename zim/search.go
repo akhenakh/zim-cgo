@@ -114,7 +114,7 @@ func (s *Search) GetResults(start, maxResults int) ([]SearchResult, error) {
 	defer C.zim_search_iterator_free(beginIt)
 	defer C.zim_search_iterator_free(endIt)
 
-	var results []SearchResult
+	var results []SearchResult = []SearchResult{}
 
 	// Iterate through results
 	for !bool(C.zim_search_iterator_equal(beginIt, endIt)) {
@@ -122,17 +122,27 @@ func (s *Search) GetResults(start, maxResults int) ([]SearchResult, error) {
 		cTitle := C.zim_search_iterator_get_title(beginIt)
 		cSnippet := C.zim_search_iterator_get_snippet(beginIt)
 
+		var path, title, snippet string
+		if cPath != nil {
+			path = C.GoString(cPath)
+			C.free(unsafe.Pointer(cPath))
+		}
+		if cTitle != nil {
+			title = C.GoString(cTitle)
+			C.free(unsafe.Pointer(cTitle))
+		}
+		if cSnippet != nil {
+			snippet = C.GoString(cSnippet)
+			C.free(unsafe.Pointer(cSnippet))
+		}
+
 		res := SearchResult{
-			Path:      C.GoString(cPath),
-			Title:     C.GoString(cTitle),
-			Snippet:   C.GoString(cSnippet),
+			Path:      path,
+			Title:     title,
+			Snippet:   snippet,
 			Score:     int(C.zim_search_iterator_get_score(beginIt)),
 			WordCount: int(C.zim_search_iterator_get_word_count(beginIt)),
 		}
-
-		C.free(unsafe.Pointer(cPath))
-		C.free(unsafe.Pointer(cTitle))
-		C.free(unsafe.Pointer(cSnippet))
 
 		results = append(results, res)
 		C.zim_search_iterator_next(beginIt)
@@ -202,9 +212,9 @@ func (s *SuggestionSearch) GetEstimatedMatches() int {
 
 // SuggestionResult holds metadata for a single suggestion
 type SuggestionResult struct {
-	Path    string
-	Title   string
-	Snippet string
+	Path    string `json:"path"`
+	Title   string `json:"title"`
+	Snippet string `json:"snippet"`
 }
 
 // GetResults fetches a slice of suggestion results
@@ -220,7 +230,7 @@ func (s *SuggestionSearch) GetResults(start, maxResults int) ([]SuggestionResult
 	defer C.zim_suggestion_iterator_free(beginIt)
 	defer C.zim_suggestion_iterator_free(endIt)
 
-	var results []SuggestionResult
+	var results []SuggestionResult = []SuggestionResult{}
 
 	for !bool(C.zim_suggestion_iterator_equal(beginIt, endIt)) {
 		cPath := C.zim_suggestion_iterator_get_path(beginIt)

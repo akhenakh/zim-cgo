@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: #f5f5f5;
+            min-height: 100vh;
+            color: #333;
+            padding: 20px;
+        }
+        .header {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+        .header h1 {
+            font-size: 20px;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        .results {
+        }
+        .result-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+            transition: transform 0.2s;
+            cursor: pointer;
+        }
+        .result-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+        }
+        .result-item h3 {
+            margin-bottom: 8px;
+            color: #2980b9;
+            font-size: 18px;
+        }
+        .result-item p {
+            color: #666;
+            margin-bottom: 8px;
+        }
+        .result-item .score {
+            display: inline-block;
+            background: #e8f4fc;
+            color: #2980b9;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .no-results {
+            text-align: center;
+            color: #999;
+            padding: 40px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h1>Search results for "{{.Query}}"</h1>
+    </div>
+
+    <div class="results">
+        {{if .Results}}
+        {{range .Results}}
+        <div class="result-item" onclick="parent.navigateTo('{{.Path}}')">
+            <h3>{{.Title}}</h3>
+            <p>{{.Snippet}}</p>
+            <span class="score">Score: {{.Score}}</span>
+        </div>
+        {{end}}
+        {{else}}
+        <div class="no-results">No results found for "{{.Query}}"</div>
+        {{end}}
+    </div>
+</body>
+
+</html>

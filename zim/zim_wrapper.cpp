@@ -203,18 +203,23 @@ void zim_search_iterator_next(zim_search_iterator_t it) {
 }
 
 char* zim_search_iterator_get_path(zim_search_iterator_t it) {
+    if (!it) return nullptr;
     try { return copy_string(static_cast<SearchIterator*>(it)->getPath()); } catch(...) { return nullptr; }
 }
 char* zim_search_iterator_get_title(zim_search_iterator_t it) {
+    if (!it) return nullptr;
     try { return copy_string(static_cast<SearchIterator*>(it)->getTitle()); } catch(...) { return nullptr; }
 }
 char* zim_search_iterator_get_snippet(zim_search_iterator_t it) {
+    if (!it) return nullptr;
     try { return copy_string(static_cast<SearchIterator*>(it)->getSnippet()); } catch(...) { return nullptr; }
 }
 int zim_search_iterator_get_score(zim_search_iterator_t it) {
+    if (!it) return 0;
     try { return static_cast<SearchIterator*>(it)->getScore(); } catch(...) { return 0; }
 }
 int zim_search_iterator_get_word_count(zim_search_iterator_t it) {
+    if (!it) return 0;
     try { return static_cast<SearchIterator*>(it)->getWordCount(); } catch(...) { return 0; }
 }
 
@@ -289,6 +294,7 @@ void zim_suggestion_iterator_next(zim_suggestion_iterator_t it) {
 }
 
 char* zim_suggestion_iterator_get_path(zim_suggestion_iterator_t it) {
+    if (!it) return nullptr;
     try { 
         SuggestionIterator* iter = static_cast<SuggestionIterator*>(it);
         std::string result = iter->operator*().getPath();
@@ -296,6 +302,7 @@ char* zim_suggestion_iterator_get_path(zim_suggestion_iterator_t it) {
     } catch(...) { return nullptr; }
 }
 char* zim_suggestion_iterator_get_title(zim_suggestion_iterator_t it) {
+    if (!it) return nullptr;
     try { 
         SuggestionIterator* iter = static_cast<SuggestionIterator*>(it);
         std::string result = iter->operator*().getTitle();
@@ -303,6 +310,7 @@ char* zim_suggestion_iterator_get_title(zim_suggestion_iterator_t it) {
     } catch(...) { return nullptr; }
 }
 char* zim_suggestion_iterator_get_snippet(zim_suggestion_iterator_t it) {
+    if (!it) return nullptr;
     try { 
         SuggestionIterator* iter = static_cast<SuggestionIterator*>(it);
         std::string result = iter->operator*().getSnippet();
